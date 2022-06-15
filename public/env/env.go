@@ -119,3 +119,19 @@ func GetInt(key string, defaultValue int) int {
 	}
 	return defaultValue
 }
+
+func IsPrd() bool {
+	return GetString(runEnv, prd) == prd
+}
+
+func IsDev() bool {
+	return GetString(runEnv, prd) == dev
+}
+
+func IsStg() bool {
+	return GetString(runEnv, prd) == stg
+}
+
+func CurrEnv() string {
+	return GetString(runEnv, prd)
+}
