@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"fmt"
+
 	logrus "github.com/sirupsen/logrus"
 )
 
@@ -30,16 +32,24 @@ func init() {
 	s_logger.Error(msg)
 }
 
-func SetModuleEnabled(module ModuleFlag) {
-	s_moduleFlag |= module
+func SetModuleEnabled(module ModuleFlag, enabled bool) {
+	if enabled {
+		s_moduleFlag |= module
+	} else {
+		s_moduleFlag ^= module
+	}
 }
 
 func New(module ModuleFlag) *Logger {
 	logger := logrus.New()
 	logger.SetLevel(AllLevel)
+	SetModuleEnabled(module, true)
 	return &Logger{logger, module}
 }
 
 func (l *Logger) Debug(args ...interface{}) {
-
+	if s_moduleFlag&l.module > 0 {
+		msg := fmt.Sprint(args...)
+		l.Logger.Debug(fmt.Sprintf("[%s] %s", modules[l.module], msg))
+	}
 }

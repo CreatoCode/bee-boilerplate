@@ -14,7 +14,7 @@ func init() {
 		env.Store(splits[0], os.Getenv(splits[0]))
 	}
 	s_logger.Debug(os.Environ())
-	s_logger.Debug("env init done")
+	s_logger.Debug("init done")
 	// env.Store("GOBIN", GetGOBIN())   // GOBIN is the path to the go binary
 	// env.Store("GOPATH", GetGOPATH()) // GOPATH is the path to the go source code
 }

@@ -2,6 +2,6 @@
 
 package config
 
-import "bee-boilerplate/logger"
+import "bee-boilerplate/public/logger"
 
-var logger = 
+var s_logger = logger.New(logger.LocalConfig)

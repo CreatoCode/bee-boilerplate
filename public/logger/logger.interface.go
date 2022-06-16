@@ -61,4 +61,8 @@ type ILogger interface {
 // create new logger instance
 // func New(module ModuleFlag) *ILogger
 
-// func SetModuleEnabled(module ModuleFlag)
+// enable logger for module with flag
+// func SetModuleEnabled(module ModuleFlag, enabled bool)
+
+// enable logger for module with string in modules above
+// func SetModuleStringEnabled(moduleName string, enabled bool)
