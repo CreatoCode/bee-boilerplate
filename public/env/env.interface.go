@@ -1,5 +1,9 @@
 package env
 
+import (
+	"bee-boilerplate/public/logger"
+)
+
 // value for the run mode in enviroment
 const runEnv = "env"
 const (
@@ -17,3 +21,5 @@ type IEnv interface {
 	GetStr(string, string) string // GetString returns string value of the environment variables
 	GetInt(string, int) int       // GetInt returns int value of the environment variables
 }
+
+var s_logger = logger.New(logger.Env)
