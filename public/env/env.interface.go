@@ -18,6 +18,7 @@ type IEnv[T int | string] interface {
 	IsStg() bool     // IsStg is a flag to indicate if the application is in staging mode
 	CurrEnv() string // CurrentEnviroment returns the current run mode
 	Get(T, T) T      // Get value of the environment variables
+	Port() int
 }
 
 var s_logger = logger.New(logger.Env)

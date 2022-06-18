@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 )
 
 type Logger struct {
@@ -16,7 +15,8 @@ type Logger struct {
 var s_logger *Logger
 var s_moduleFlag ModuleFlag = SharedInstance
 
-func newZap(level zapcore.Level) *zap.Logger {
+func newZap() *zap.Logger {
+	// level zapcore.Level
 	logger, err := zap.NewDevelopment()
 	if err != nil {
 		log.Fatalf("can't initialize zap logger: %v", err)
@@ -25,7 +25,7 @@ func newZap(level zapcore.Level) *zap.Logger {
 }
 
 func init() {
-	logger := newZap(zapcore.DebugLevel)
+	logger := newZap()
 	s_logger = &Logger{logger, SharedInstance}
 	// writer1 := &bytes.Buffer{}
 	// writer2 := os.Stdout

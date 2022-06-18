@@ -6,5 +6,5 @@ import (
 )
 
 func main() { // main函数，是程序执行的入口
-	fmt.Println("Hello World! ", env.CurrEnv(), env.IsDev(), env.IsPrd(), env.IsStg()) // 在终端打印 Hello World!
+	fmt.Println("Hello World! ", env.Port(), env.CurrEnv(), env.IsDev(), env.IsPrd(), env.IsStg()) // 在终端打印 Hello World!
 }

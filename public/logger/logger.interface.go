@@ -46,8 +46,6 @@ var modules = map[ModuleFlag]string{
 	Http:           "http",
 }
 
-// type Logger interface{}
-
 type ILogger interface {
 	Info(args ...interface{})
 	Error(args ...interface{})

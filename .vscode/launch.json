@@ -11,7 +11,8 @@
       "mode": "auto",
       "program": "${workspaceRoot}/main.go",
       "env": {
-        "env": "dev"
+        "env": "dev",
+        "port": "6666"
       }
     }
   ]

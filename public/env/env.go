@@ -2,6 +2,7 @@ package env
 
 import (
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 )
@@ -97,25 +98,36 @@ func init() {
 // 	return gopath
 // }
 
-func Get[T any](key T, defaultValue T) T {
+func Get[T int | string](key string, defaultValue T) T {
 	if val, ok := env.Load(key); ok {
-		return val.(string)
+		switch any(defaultValue).(type) {
+		case int:
+			if i, err := strconv.Atoi(val.(string)); err == nil {
+				return T(i)
+			}
+
+		}
+		return val.(T)
 	}
 	return defaultValue
 }
 
 func IsPrd() bool {
-	return GetString(runEnv, prd) == prd
+	return Get(runEnv, prd) == prd
 }
 
 func IsDev() bool {
-	return GetString(runEnv, prd) == dev
+	return Get(runEnv, prd) == dev
 }
 
 func IsStg() bool {
-	return GetString(runEnv, prd) == stg
+	return Get(runEnv, prd) == stg
 }
 
 func CurrEnv() string {
-	return GetString(runEnv, prd)
+	return Get(runEnv, prd)
+}
+
+func Port() int {
+	return Get("port", 8080)
 }
