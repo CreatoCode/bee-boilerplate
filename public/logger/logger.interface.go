@@ -1,6 +1,6 @@
 package logger
 
-type Level int
+type Level int8
 
 const (
 	// PanicLevel level, highest level of severity. Logs and then calls panic with the

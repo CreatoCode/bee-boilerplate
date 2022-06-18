@@ -57,13 +57,6 @@ func init() {
 // 	return runtimeEnv, nil
 // }
 
-func Get(key string, defaultValue string) string {
-	if val, ok := env.Load(key); ok {
-		return val.(string)
-	}
-	return defaultValue
-}
-
 // func GetGOBIN() string {
 // 	// The one set by user explicitly by `export GOBIN=/path` or `env GOBIN=/path command`
 // 	gobin := strings.TrimSpace(Get("GOBIN", ""))
@@ -104,20 +97,9 @@ func Get(key string, defaultValue string) string {
 // 	return gopath
 // }
 
-func Port() int {
-	return GetInt("port", 8080)
-}
-
-func GetString(key string, defaultValue string) string {
+func Get[T any](key T, defaultValue T) T {
 	if val, ok := env.Load(key); ok {
 		return val.(string)
-	}
-	return defaultValue
-}
-
-func GetInt(key string, defaultValue int) int {
-	if val, ok := env.Load(key); ok {
-		return val.(int)
 	}
 	return defaultValue
 }
