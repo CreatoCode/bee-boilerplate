@@ -1,6 +1,14 @@
 package http
 
-import "net/http"
+import (
+	"net/http"
+)
+
+type ResponseData struct {
+	Code string      `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
+}
 
 // Param is a single URL parameter, consisting of a key and a value.
 type Param struct {
@@ -52,17 +60,21 @@ type Error struct {
 type errorMsgs []*Error
 
 type Context struct {
-	Request  *http.Request          // Current http request
-	Params   Params                 //  a list of named path parameters.
-	Writer   ResponseWriter         // the Response that we are writing to.
-	Keys     map[string]interface{} // a key/value pair exclusively for the context of each request.
-	Errors   errorMsgs              // Errors is a list of errors attached to all the handlers/middlewares who used this context.
-	Accepted []string               // Accepted defines a list of manually accepted formats for content negotiation.
+	// Request *http.Request // Current http request
+	Model interface{}
 }
 
-type Engine struct {
+type HandlerFunc func(*Context) (any, error)
+
+type IRouterGroup interface {
+	// model
+	GET(relativePath string, handler HandlerFunc, model any)
+}
+
+type IEngine interface {
+	Group(elativePath string) *IRouterGroup
 }
 
 type IHTTP interface {
-	New() *Engine // returns a new Engine instance
+	Default() *IEngine // returns a new Engine instance
 }
