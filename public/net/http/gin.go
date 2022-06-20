@@ -7,11 +7,11 @@ import (
 )
 
 type Engine struct {
-	engine *gin.Engine
+	*gin.Engine
 }
 
-type RouteGroup struct {
-	router *gin.RouterGroup
+type RouterGroup struct {
+	*gin.RouterGroup
 }
 
 var s_route *Engine
@@ -30,18 +30,18 @@ func init() {
 	// })
 }
 
-func Default() *IEngine {
+func Default() *Engine {
 	// r := gin.Default()
 	// r.Use(gin.Recovery())
 	// r.Use(gin.Logger())
 	return s_route
 }
 
-func (e *Engine) Group(elativePath string) *IRouterGroup {
-	return e.Group(elativePath)
+func (e *Engine) Group(elativePath string) *gin.RouterGroup {
+	return e.Engine.Group(elativePath)
 }
 
-func (g *RouteGroup) GET(relativePath string, handler HandlerFunc, model any) {
+func (g *RouterGroup) GET(relativePath string, handler HandlerFunc, model any) {
 	get := func(gc *gin.Context) {
 		if err := gc.ShouldBindJSON(&model); err != nil {
 			gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -52,5 +52,5 @@ func (g *RouteGroup) GET(relativePath string, handler HandlerFunc, model any) {
 			gc.JSON(http.StatusOK, ResponseData{Msg: "ok", Code: "0", Data: data})
 		}
 	}
-	g.router.GET(relativePath, get)
+	g.RouterGroup.GET(relativePath, get)
 }
