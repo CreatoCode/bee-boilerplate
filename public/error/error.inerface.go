@@ -1,12 +1,11 @@
 package error
 
-// 错误需要的字段：错误码，错误消息，所属域，错误原因，错误解决建议
 type Error struct {
 	Code       int    `json:"code"`       // code is the error
-	Message    string `json:"message"`    // message of the error
-	Domain     string `json:"domain"`     // domain of the error
-	Reason     string `json:"reason"`     // what is the error
-	Suggestion string `json:"suggestion"` // fix suggestion
+	Message    string `json:"message"`    // message for user
+	Domain     string `json:"domain"`     // described by names that are arbitrary strings used to differentiate groups of codes;
+	Reason     string `json:"reason"`     // describing why the operation failed
+	Suggestion string `json:"suggestion"` // describing what the user can do to fix the problem
 }
 
 type IError interface {
