@@ -62,3 +62,11 @@ func (l *Logger) Debug(args ...interface{}) {
 		l.Logger.Debug(fmt.Sprintf("[%s] %s", modules[l.module], msg))
 	}
 }
+
+func (l *Logger) Error(args ...interface{}) {
+	if s_moduleFlag&l.module > 0 {
+		defer s_logger.Sync()
+		msg := fmt.Sprint(args...)
+		l.Logger.Error(fmt.Sprintf("[%s] %s", modules[l.module], msg))
+	}
+}

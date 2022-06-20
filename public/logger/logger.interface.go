@@ -5,7 +5,7 @@ type Level int8
 const (
 	// PanicLevel level, highest level of severity. Logs and then calls panic with the
 	// message passed to Debug, Info, ...
-	PanicLevel Level = iota
+	PanicLevel Level = iota + 1
 	// FatalLevel level. Logs and then calls `logger.Exit(1)`. It will exit even if the
 	// logging level is set to Panic.
 	FatalLevel
@@ -33,7 +33,8 @@ const (
 	SharedInstance ModuleFlag = 1 << iota
 	LocalConfig
 	Env
-	Database
+	DataLayer
+	ORM
 	Http
 	All = 0xFFFFFFFF
 )
@@ -42,7 +43,8 @@ var modules = map[ModuleFlag]string{
 	SharedInstance: "sharedInstance",
 	LocalConfig:    "localConfig",
 	Env:            "env",
-	Database:       "database",
+	DataLayer:      "dataLayer",
+	ORM:            "ORM",
 	Http:           "http",
 }
 
