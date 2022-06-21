@@ -13,6 +13,6 @@ const (
 	ErrorCodeOK = iota + 1
 )
 
-// type ORM[T any] struct {
-// 	orm *T
-// }
+type orm[T any] struct {
+	orm *T
+}

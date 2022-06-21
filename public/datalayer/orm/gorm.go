@@ -7,11 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type orm struct {
-	orm *gorm.DB
-}
-
-var g_db *orm
+var g_db *orm[gorm.DB]
 
 func init() {
 	// g_db, err = gorm.Open("mysql", "root:bgbiao.top@(127.0.0.1:13306)/test_api?charset=utf8&parseTime=True&loc=Local")
@@ -19,15 +15,15 @@ func init() {
 	if err != nil {
 		g_logger.Error("创建数据库连接失败:%v", err)
 	} else {
-		g_db = &orm{orm: db}
+		g_db = &orm[gorm.DB]{orm: db}
 	}
 }
 
-func New() *orm {
+func ShareInstance() *orm[gorm.DB] {
 	return g_db
 }
 
-func (o *orm) Create(value interface{}) *errors.Error {
+func (o *orm[T]) Create(value interface{}) *errors.Error {
 	db := g_db.orm.Create(value)
 	if nil != db.Error {
 		err := g_createError(ErrorCodeOK, "创建失败", "", "")
@@ -36,7 +32,7 @@ func (o *orm) Create(value interface{}) *errors.Error {
 	return nil
 }
 
-func (o *orm) Get(model interface{}, conds ...interface{}) ([]interface{}, *errors.Error) {
+func (o *orm[T]) Get(model interface{}, conds ...interface{}) ([]interface{}, *errors.Error) {
 	db := g_db.orm.Take(model, conds...)
 	if nil != db.Error {
 		err := g_createError(ErrorCodeOK, "查询失败", "", "")
@@ -45,7 +41,7 @@ func (o *orm) Get(model interface{}, conds ...interface{}) ([]interface{}, *erro
 	return nil, nil
 }
 
-func (d *orm) GetFirst(model interface{}, conds ...interface{}) (interface{}, *errors.Error) {
+func (d *orm[T]) GetFirst(model interface{}, conds ...interface{}) (interface{}, *errors.Error) {
 	db := g_db.orm.First(model, conds...)
 	if nil != db.Error {
 		err := g_createError(ErrorCodeOK, "查询失败", "", "")
@@ -54,7 +50,7 @@ func (d *orm) GetFirst(model interface{}, conds ...interface{}) (interface{}, *e
 	return nil, nil
 }
 
-func (d *orm) Update(column string, model interface{}) *errors.Error {
+func (d *orm[T]) Update(column string, model interface{}) *errors.Error {
 	db := g_db.orm.Update(column, model)
 	if nil != db.Error {
 		err := g_createError(ErrorCodeOK, "更新失败", "", "")
@@ -63,7 +59,7 @@ func (d *orm) Update(column string, model interface{}) *errors.Error {
 	return nil
 }
 
-func (d *orm) Delete(model interface{}, conds ...interface{}) *errors.Error {
+func (d *orm[T]) Delete(model interface{}, conds ...interface{}) *errors.Error {
 	db := g_db.orm.Delete(model, conds...)
 	if nil != db.Error {
 		err := g_createError(ErrorCodeOK, "删除失败", "", "")

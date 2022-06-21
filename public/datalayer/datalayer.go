@@ -5,31 +5,34 @@ import (
 	"bee-boilerplate/public/errors"
 )
 
-type datalayer struct {
+type datalayer[T any] struct {
+	orm *T
 }
 
-var g_orm = ORM.New()
+var g_orm = ORM.ShareInstance()
 
-func New() *datalayer {
-	return &datalayer{}
+var g_datalayer = &datalayer[any]{orm: g_orm}
+
+func shareInstance() *datalayer {
+	return g_datalayer
 }
 
-func (d *datalayer) Create(value interface{}) *errors.Error {
+func (d *datalayer[T]) Create(value interface{}) *errors.Error {
 	return g_orm.Create(value)
 }
 
-func (d *datalayer) Get(model interface{}, conds ...interface{}) ([]interface{}, *errors.Error) {
+func (d *datalayer[T]) Get(model interface{}, conds ...interface{}) ([]interface{}, *errors.Error) {
 	return g_orm.Get(model, conds...)
 }
 
-func (d *datalayer) GetFirst(model interface{}, conds ...interface{}) (interface{}, *errors.Error) {
+func (d *datalayer[T]) GetFirst(model interface{}, conds ...interface{}) (interface{}, *errors.Error) {
 	return g_orm.GetFirst(model, conds...)
 }
 
-func (d *datalayer) Update(column string, model interface{}) *errors.Error {
+func (d *datalayer[T]) Update(column string, model interface{}) *errors.Error {
 	return g_orm.Update(column, model)
 }
 
-func (d *datalayer) Delete(model interface{}, conds ...interface{}) *errors.Error {
+func (d *datalayer[T]) Delete(model interface{}, conds ...interface{}) *errors.Error {
 	return g_orm.Delete(model, conds...)
 }
