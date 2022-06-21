@@ -21,4 +21,4 @@ type IEnv[T int | string] interface {
 	Port() int
 }
 
-var s_logger = logger.New(logger.Env)
+var g_logger = logger.New(logger.Env)

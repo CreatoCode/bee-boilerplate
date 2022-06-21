@@ -4,4 +4,4 @@ package config
 
 import "bee-boilerplate/public/logger"
 
-var s_logger = logger.New(logger.LocalConfig)
+var g_logger = logger.New(logger.LocalConfig)

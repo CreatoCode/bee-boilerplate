@@ -10,4 +10,4 @@ type IDatalayer[T any] interface {
 	Delete(int64) error
 }
 
-var s_logger = logger.New(logger.DataLayer)
+var g_logger = logger.New(logger.DataLayer)

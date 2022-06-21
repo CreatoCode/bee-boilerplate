@@ -1,5 +1,9 @@
 package config
 
 func init() {
-	s_logger.Debug("config init done")
+	g_logger.Debug("config init done")
+}
+
+func Init() {
+
 }
