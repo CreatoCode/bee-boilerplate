@@ -7,14 +7,12 @@ import (
 
 var g_logger = logger.New(logger.ORM)
 
-var g_createError = errors.NewDomain("bee-boilerplate.public.orm")
+var g_createError = errors.NewDomain("bee-boilerplate/public/datalayer/orm")
 
 const (
 	ErrorCodeOK = iota + 1
 )
 
-// ORM abstract
-
-type IORM[T any] interface {
-	Create(value interface{}) *errors.Error
-}
+// type ORM[T any] struct {
+// 	orm *T
+// }
