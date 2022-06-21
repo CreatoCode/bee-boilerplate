@@ -1,4 +1,4 @@
-package error
+package errors
 
 const (
 	CodeInvalidArgument = iota + 1 // pass an invalid argument to a method

@@ -1,8 +1,7 @@
 package ORM
 
 import (
-	err "bee-boilerplate/public/error"
-
+	"github.com/go-errors/errors"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -18,7 +17,7 @@ func init() {
 	}
 }
 
-func Create(value interface{}) *err.Error {
+func Create(value interface{}) *errors.Error {
 	db := g_db.Create(value)
 	if nil != db.Error {
 		err := g_createError(ErrorCodeOK, "创建失败", "", "")

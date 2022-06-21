@@ -68,7 +68,7 @@ type HandlerFunc func(*Context) (any, error)
 
 type IRouterGroup interface {
 	// model
-	GET(relativePath string, handler HandlerFunc, model any)
+	GET(relativePath string, handler HandlerFunc, model interface{})
 }
 
 type IEngine interface {
