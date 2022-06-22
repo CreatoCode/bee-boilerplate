@@ -23,8 +23,15 @@ func ShareInstance() *orm[gorm.DB] {
 	return g_db
 }
 
+func getInstance(o interface{}) *gorm.DB {
+	if instance, ok := o.(orm[gorm.DB]); ok {
+		return instance.orm
+	}
+	return nil
+}
+
 func (o *orm[T]) Create(value interface{}) *errors.Error {
-	db := g_db.orm.Create(value)
+	db := getInstance(o).Create(value)
 	if nil != db.Error {
 		err := g_createError(ErrorCodeOK, "创建失败", "", "")
 		return &err
