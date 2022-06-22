@@ -1,23 +1,35 @@
 package env
 
 import (
+	"bee-boilerplate/public/logger"
 	"os"
 	"strconv"
 	"strings"
 	"sync"
 )
 
-var env sync.Map
+type env struct {
+	syncMap sync.Map
+	IEnv
+}
+
+var g_env = &env{}
+
+var g_logger = logger.New(logger.Env)
 
 func init() {
 	for _, e := range os.Environ() {
 		splits := strings.Split(e, "=")
-		env.Store(splits[0], os.Getenv(splits[0]))
+		g_env.syncMap.Store(splits[0], os.Getenv(splits[0]))
 	}
 	g_logger.Debug(os.Environ())
 	g_logger.Debug("init done")
 	// env.Store("GOBIN", GetGOBIN())   // GOBIN is the path to the go binary
 	// env.Store("GOPATH", GetGOPATH()) // GOPATH is the path to the go source code
+}
+
+func SharedInstance() IEnv {
+	return g_env
 }
 
 // func getGOENV(string, error) {
@@ -60,7 +72,7 @@ func init() {
 
 // func GetGOBIN() string {
 // 	// The one set by user explicitly by `export GOBIN=/path` or `env GOBIN=/path command`
-// 	gobin := strings.TrimSpace(Get("GOBIN", ""))
+// 	gobin := strings.TrimSpace(get("GOBIN", ""))
 // 	if gobin == "" {
 // 		var err error
 // 		// The one set by user by running `go env -w GOBIN=/path`
@@ -81,7 +93,7 @@ func init() {
 // // It will NOT be an empty string.
 // func GetGOPATH() string {
 // 	// The one set by user explicitly by `export GOPATH=/path` or `env GOPATH=/path command`
-// 	gopath := strings.TrimSpace(Get("GOPATH", ""))
+// 	gopath := strings.TrimSpace(get("GOPATH", ""))
 // 	if gopath == "" {
 // 		var err error
 // 		// The one set by user by running `go env -w GOPATH=/path`
@@ -98,8 +110,8 @@ func init() {
 // 	return gopath
 // }
 
-func Get[T int | string](key string, defaultValue T) T {
-	if val, ok := env.Load(key); ok {
+func get[T int | string](key string, defaultValue T) T {
+	if val, ok := g_env.syncMap.Load(key); ok {
 		switch any(defaultValue).(type) {
 		case int:
 			if i, err := strconv.Atoi(val.(string)); err == nil {
@@ -112,22 +124,30 @@ func Get[T int | string](key string, defaultValue T) T {
 	return defaultValue
 }
 
-func IsPrd() bool {
-	return Get(runEnv, prd) == prd
+func (e *env) IsPrd() bool {
+	return get(runEnv, prd) == prd
 }
 
-func IsDev() bool {
-	return Get(runEnv, prd) == dev
+func (e *env) IsDev() bool {
+	return get(runEnv, prd) == dev
 }
 
-func IsStg() bool {
-	return Get(runEnv, prd) == stg
+func (e *env) IsStg() bool {
+	return get(runEnv, prd) == stg
 }
 
-func CurrEnv() string {
-	return Get(runEnv, prd)
+func (e *env) CurrEnv() string {
+	return get(runEnv, prd)
 }
 
-func Port() int {
-	return Get("port", 8080)
+func (e *env) Port() int {
+	return get("port", 8080)
+}
+
+func (e *env) GetInt(key string, defaultValue int) int {
+	return get(key, defaultValue)
+}
+
+func (e *env) GetStr(key string, defaultValue string) string {
+	return get(key, defaultValue)
 }

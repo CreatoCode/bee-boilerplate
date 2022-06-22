@@ -6,5 +6,6 @@ import (
 )
 
 func main() { // main函数，是程序执行的入口
+	env := env.SharedInstance()
 	fmt.Println("Hello World! ", env.Port(), env.CurrEnv(), env.IsDev(), env.IsPrd(), env.IsStg()) // 在终端打印 Hello World!
 }

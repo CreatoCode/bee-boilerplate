@@ -13,8 +13,8 @@ type applyOption[T any] struct {
 	f func(T)
 }
 
-func (x *applyOption[T]) apply(do T) {
-	x.f(do)
+func (a *applyOption[T]) apply(do T) {
+	a.f(do)
 }
 
 //NewApplyOption  create an ap functor
