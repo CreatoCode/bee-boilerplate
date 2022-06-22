@@ -1,0 +1,42 @@
+package datalayer
+
+import (
+	"bee-boilerplate/public/datalayer/orm/gorm"
+	"bee-boilerplate/public/datalayer/singleton"
+	"bee-boilerplate/public/errors"
+	"bee-boilerplate/public/logger"
+)
+
+var g_logger = logger.New(logger.DataLayer)
+var g_errors = errors.NewDomain("bee-boilerplate/public/datalayer")
+
+type datalayer[T singleton.Model] struct {
+	model T
+	orm   singleton.IDatalayer[T]
+}
+
+func New[T singleton.Model](model singleton.Model) singleton.IDatalayer[singleton.Model] {
+	return &datalayer[model]{model: model, orm: gorm.New(model)}
+}
+
+func (d *datalayer[T]) Create(model singleton.Model) *errors.Error {
+	return datalayer[singleton.Model].orm.Create(model)
+}
+
+func (d *datalayer[T]) Get(model singleton.Model, conds ...interface{}) ([]singleton.Model, *errors.Error) {
+	results, err := datalayer[singleton.Model].orm.Get(model, conds...)
+	s := make([]singleton.Model, 1)
+	return s, nil
+}
+
+func (d *datalayer[T]) GetFirst(model singleton.Model, conds ...interface{}) (singleton.Model, *errors.Error) {
+	return datalayer[singleton.Model].orm.GetFirst(model, conds...)
+}
+
+func (d *datalayer[T]) Update(column string, model singleton.Model) *errors.Error {
+	return datalayer[singleton.Model].orm.Update(column, model)
+}
+
+func (d *datalayer[T]) Delete(model singleton.Model, conds ...interface{}) *errors.Error {
+	return datalayer[singleton.Model].orm.Delete(model, conds...)
+}

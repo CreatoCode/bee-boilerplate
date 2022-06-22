@@ -1,4 +1,4 @@
-package xorm
+package orm
 
 // var g_logger = logger.New(logger.ORM)
 

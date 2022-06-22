@@ -1,0 +1,32 @@
+package datalayer
+
+import (
+	"bee-boilerplate/public/datalayer/orm/gorm"
+	"bee-boilerplate/public/datalayer/singleton"
+	"bee-boilerplate/public/errors"
+	"bee-boilerplate/public/logger"
+)
+
+var g_logger = logger.New(logger.DataLayer)
+var g_errors = errors.NewDomain("bee-boilerplate/public/datalayer")
+
+type datalayer struct {
+	
+}
+
+
+func (d *datalayer) Create(value interface{}) *errors.Error {
+	return g_orm.Create(value)
+}
+func (d *datalayer) Get(model interface{}, conds ...interface{}) ([]interface{}, *errors.Error) {
+	return g_orm.Get(model, conds...)
+}
+func (d *datalayer) GetFirst(model interface{}, conds ...interface{}) (interface{}, *errors.Error) {
+	return g_orm.GetFirst(model, conds...)
+}
+func (d *datalayer) Update(column string, model interface{}) *errors.Error {
+	return g_orm.Update(column, model)
+}
+func (d *datalayer) Delete(model interface{}, conds ...interface{}) *errors.Error {
+	return g_orm.Delete(model, conds...)
+}

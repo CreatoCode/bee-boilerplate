@@ -10,13 +10,12 @@ import (
 	goorm "gorm.io/gorm"
 )
 
-var g_createError = errors.NewDomain("bee-boilerplate/public/datalayer/gorm")
-var g_logger = logger.New(logger.ORM)
-
-type orm struct {
-	orm *goorm.DB
+type orm[T singleton.Model] struct {
+	model T
 }
 
+var g_createError = errors.NewDomain("bee-boilerplate/public/datalayer/orm")
+var g_logger = logger.New(logger.ORM)
 var g_gorm *goorm.DB
 
 func init() {
@@ -29,11 +28,11 @@ func init() {
 	}
 }
 
-func SharedInstance() singleton.IDatalayer {
-	return &orm{orm: g_gorm}
+func New[T singleton.Model](model singleton.Model) singleton.IDatalayer {
+	return &orm{model: model}
 }
 
-func (o *orm) Create(value interface{}) *errors.Error {
+func (o *orm[T]) Create(value singleton.Model) *errors.Error {
 	db := g_gorm.Create(value)
 	if nil != db.Error {
 		err := g_createError(ORM.ErrorCodeOK, "创建失败", "", "")
@@ -42,7 +41,7 @@ func (o *orm) Create(value interface{}) *errors.Error {
 	return nil
 }
 
-func (o *orm) Get(model interface{}, conds ...interface{}) ([]interface{}, *errors.Error) {
+func (o *orm[T]) Get(model singleton.Model, conds ...interface{}) ([]singleton.Model, *errors.Error) {
 	db := g_gorm.Take(model, conds...)
 	if nil != db.Error {
 		err := g_createError(ORM.ErrorCodeOK, "查询失败", "", "")
@@ -51,7 +50,7 @@ func (o *orm) Get(model interface{}, conds ...interface{}) ([]interface{}, *erro
 	return nil, nil
 }
 
-func (d *orm) GetFirst(model interface{}, conds ...interface{}) (interface{}, *errors.Error) {
+func (d *orm[T]) GetFirst(model singleton.Model, conds ...interface{}) (singleton.Model, *errors.Error) {
 	db := g_gorm.First(model, conds...)
 	if nil != db.Error {
 		err := g_createError(ORM.ErrorCodeOK, "查询失败", "", "")
@@ -60,7 +59,7 @@ func (d *orm) GetFirst(model interface{}, conds ...interface{}) (interface{}, *e
 	return nil, nil
 }
 
-func (d *orm) Update(column string, model interface{}) *errors.Error {
+func (d *orm[T]) Update(column string, model singleton.Model) *errors.Error {
 	db := g_gorm.Update(column, model)
 	if nil != db.Error {
 		err := g_createError(ORM.ErrorCodeOK, "更新失败", "", "")
@@ -69,7 +68,7 @@ func (d *orm) Update(column string, model interface{}) *errors.Error {
 	return nil
 }
 
-func (d *orm) Delete(model interface{}, conds ...interface{}) *errors.Error {
+func (d *orm[T]) Delete(model singleton.Model, conds ...interface{}) *errors.Error {
 	db := g_gorm.Delete(model, conds...)
 	if nil != db.Error {
 		err := g_createError(ORM.ErrorCodeOK, "删除失败", "", "")

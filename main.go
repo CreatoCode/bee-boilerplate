@@ -12,7 +12,7 @@ type Test struct {
 
 func main() { // main函数，是程序执行的入口
 	t := Test{Name: "baby"}
-	datalayer := datalayer.New[Test](t)
+	// datalayer := datalayer.New[Test](t)
 	datalayer.Create(t)
 	env := env.SharedInstance()
 	fmt.Println("Hello World! ", env.Port(), env.CurrEnv(), env.IsDev(), env.IsPrd(), env.IsStg()) // 在终端打印 Hello World!
