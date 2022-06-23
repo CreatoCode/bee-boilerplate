@@ -30,3 +30,7 @@ func Update(column string, model interface{}) *errors.Error {
 func Delete(model interface{}, conds ...interface{}) *errors.Error {
 	return g_orm.Delete(model, conds...)
 }
+
+func AutoMigrate(value interface{}) *errors.Error {
+	return g_orm.AutoMigrate(value)
+}

@@ -77,3 +77,12 @@ func (d *orm) Delete(model interface{}, conds ...interface{}) *errors.Error {
 	}
 	return nil
 }
+
+func (d *orm) AutoMigrate(value ...interface{}) *errors.Error {
+	err := g_gorm.AutoMigrate(value...)
+	if nil != err {
+		err := g_createError(ORM.ErrorCodeOK, "删除失败", err.Error(), "")
+		return &err
+	}
+	return nil
+}

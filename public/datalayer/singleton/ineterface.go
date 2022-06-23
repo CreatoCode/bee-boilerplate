@@ -6,6 +6,7 @@ import (
 )
 
 type IDatalayer interface {
+	AutoMigrate(value ...interface{}) *errors.Error
 	Create(value interface{}) *errors.Error
 	Get(model interface{}, conds ...interface{}) ([]interface{}, *errors.Error)
 	GetFirst(model interface{}, conds ...interface{}) (interface{}, *errors.Error)
