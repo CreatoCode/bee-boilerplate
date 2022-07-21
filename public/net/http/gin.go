@@ -42,7 +42,11 @@ func (e *Engine) Group(elativePath string) *RouterGroup {
 	return &RouterGroup{routerGroup: rg}
 }
 
-func (g *RouterGroup) GET(relativePath string, handler HandlerFunc, model interface{}) {
+func (e *Engine) Run(addr ...string) (err error) {
+	return g_route.engine.Run(addr...)
+}
+
+func (g *RouterGroup) Get(relativePath string, handler HandlerFunc, model interface{}) {
 	get := func(gc *gin.Context) {
 		if err := gc.ShouldBindJSON(&model); err != nil {
 			gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -54,4 +58,18 @@ func (g *RouterGroup) GET(relativePath string, handler HandlerFunc, model interf
 		}
 	}
 	g.routerGroup.GET(relativePath, get)
+}
+
+func (g *RouterGroup) Post(relativePath string, handler HandlerFunc, model interface{}) {
+	get := func(gc *gin.Context) {
+		if err := gc.ShouldBindJSON(&model); err != nil {
+			gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c := &Context{model}
+		if data, err := handler(c); err != nil {
+			gc.JSON(http.StatusOK, ResponseData{Msg: "ok", Code: "0", Data: data})
+		}
+	}
+	g.routerGroup.POST(relativePath, get)
 }

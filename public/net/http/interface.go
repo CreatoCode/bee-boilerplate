@@ -68,7 +68,8 @@ type HandlerFunc func(*Context) (any, error)
 
 type IRouterGroup interface {
 	// model
-	GET(relativePath string, handler HandlerFunc, model interface{})
+	Get(relativePath string, handler HandlerFunc, model interface{})
+	Post(relativePath string, handler HandlerFunc, model interface{})
 }
 
 type IEngine interface {
@@ -77,4 +78,5 @@ type IEngine interface {
 
 type IHTTP interface {
 	Default() *IEngine // returns a new Engine instance
+	Run(addr ...string) (err error)
 }

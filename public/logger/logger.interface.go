@@ -36,6 +36,7 @@ const (
 	DataLayer
 	ORM
 	Http
+	User
 	All = 0xFFFFFFFF
 )
 
@@ -46,6 +47,7 @@ var modules = map[ModuleFlag]string{
 	DataLayer:      "dataLayer",
 	ORM:            "ORM",
 	Http:           "http",
+	User:           "user",
 }
 
 type ILogger interface {
