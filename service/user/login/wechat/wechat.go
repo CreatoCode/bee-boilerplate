@@ -12,7 +12,7 @@ import (
 
 	"bee-boilerplate/public/crypto"
 	"bee-boilerplate/public/extension"
-	httpClient "bee-boilerplate/public/net/client"
+	httpClient "bee-boilerplate/public/net/http/client"
 )
 
 // https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317853&token=&lang=zh_CN
@@ -112,7 +112,9 @@ type (
 )
 
 func SharedInstance() *WxConfig {
-	return &WxConfig{AppID: "wxe102b430fcc66b48", Secret: "d2987479b7fc9636ffb33c44afe349ba"}
+	// return &WxConfig{AppID: "wxe102b430fcc66b48", Secret: "d2987479b7fc9636ffb33c44afe349ba"}
+	return &WxConfig{AppID: "wx8342144975e9a523", Secret: "cf9c81e05267fe245a48ace7095fa1d3"}
+
 }
 
 // AppLogin 微信APP登录 直接登录获取用户信息

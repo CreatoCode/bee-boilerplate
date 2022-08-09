@@ -12,6 +12,7 @@ type IDatalayer interface {
 	GetFirst(model interface{}, conds ...interface{}) (interface{}, *errors.Error)
 	Update(column string, model interface{}) *errors.Error
 	Delete(model interface{}, conds ...interface{}) *errors.Error
+	IsExist(model interface{}, conds ...interface{}) (bool, *errors.Error)
 }
 
 // type Model any

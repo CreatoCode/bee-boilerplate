@@ -34,3 +34,7 @@ func Delete(model interface{}, conds ...interface{}) *errors.Error {
 func AutoMigrate(value interface{}) *errors.Error {
 	return g_orm.AutoMigrate(value)
 }
+
+func IsExist(model interface{}, conds ...interface{}) (bool, *errors.Error) {
+	return g_orm.IsExist(model, conds...)
+}

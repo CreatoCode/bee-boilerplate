@@ -86,3 +86,20 @@ func (d *orm) AutoMigrate(value ...interface{}) *errors.Error {
 	}
 	return nil
 }
+
+func (d *orm) IsExist(model interface{}, conds ...interface{}) (bool, *errors.Error) {
+	// g_gorm.Raw("SELECT EXISTS(SELECT 1 FROM my_table WHERE id = ? AND `key` = ? AND `value` = ?) AS found",
+	// myID, myKey, "0").Scan(&result)
+	// var result struct {
+	// 	Found bool
+	// }
+	// g_gorm.Raw("SELECT 1 FROM my_table WHERE id = ? AND `key` = ? AND `value` = ?",
+	// 	myID, myKey, "0").Scan(&result)
+	countryCapitalMap := make(map[string]string)
+	err := g_gorm.Model(model).Where(conds[0], conds[1:]...).Select("1").Scan(&countryCapitalMap).Error
+	if err != nil {
+		err := g_createError(ORM.ErrorCodeOK, "查询失败", err.Error(), "")
+		return false, &err
+	}
+	return true, nil
+}
